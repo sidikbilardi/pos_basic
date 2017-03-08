@@ -280,6 +280,7 @@ LEFT JOIN
 	$no = 1;
 
 	$m = mysql_query("select A.no_bukti,A.keterangan,C.nama_meja,D.nama_lokasi,D.takeaway,B.pax,B.sub_total,B.disc,B.svc,B.tax,B.total from tbltransorder_master A , tbltrans_summary B,tblmastermeja C,tblmasterlokasi D where C.kode_lokasi = D.kode_lokasi AND A.kode_meja = C.kode_meja AND A.no_bukti = B.no_bukti AND A.status = 1 AND A.keterangan != 'OPEN' AND A.time_out  >'".$start." 00:00:00' AND A.time_out < '".$end."24:00:00' ");	
+	//$m = mysql_query("select COUNT(A.id) as jml_bill,SUM(B.sub_total) as sub_total,SUM(B.disc) as disc,SUM(B.svc) as svc,SUM(B.tax) as tax,SUM(B.total) as total,sum(B.pax) as pax from tbltransorder_master A , tbltrans_summary B,tblmastermeja C,tblmasterlokasi D where C.kode_lokasi = D.kode_lokasi AND A.kode_meja = C.kode_meja AND A.no_bukti = B.no_bukti AND A.status = 1 AND A.keterangan != 'OPEN' AND A.time_out  >'".$start." 00:00:00' AND A.time_out < '".$end."24:00:00' ");
 	while($mm = mysql_fetch_assoc($m)) {
 		if($mm['keterangan'] == 'VOID'){
 			$sls_void += $mm['total'];
@@ -370,57 +371,38 @@ LEFT JOIN
 			: <?php echo number_format($tkw);?>
 		</div>	
 
-
-		
 		<div class="col-lg-12 col-md-12" style="padding-bottom:5px">
-			<strong>Sales </strong> 
+			<strong>Disc per item </strong> 
 		
 		
 			
 		      <table class="table table-striped">
 		        <tbody>
 		        <tr>
-		          <th >Category</th>
-		          <th >Sales</th>
-		          <th >Disc</th>
-		                             
-		        </tr>		        	
-		<?php
-		$c = mysql_query("SELECT * FROM tblmastercategory where status = 1 ORDER BY nama_cat");
-		while($cat = mysql_fetch_assoc($c)){
-			$nom = 0;
-			$disc = 0;
-			$t = mysql_query("
-			SELECT * FROM(
-			select A.kode_cat,B.*,sum(B.qty*B.harga) as total from tblmastermenu A,tbltransorder_detail B,tbltransorder_master C where B.status = 1 AND B.kode_menu = A.kode_menu AND C.no_bukti = B.no_bukti AND C.keterangan = 'CLOSE' AND A.kode_cat = '".$cat['kode_cat']."' AND B.time_order > '".$start." 00:00:00' AND B.time_order < '".$end." 24:00:00' GROUP BY B.kode_menu) S 
-			LEFT JOIN
-			(select kode_menu,SUM(harga*qty) as DISC from tbltransorder_detail where LEFT(kode_menu,3) = 'DSC' AND time_order > '".$start." 00:00:00' AND time_order < '".$end." 24:00:00' AND status = 1  GROUP BY kode_menu) T ON S.kode_menu = RIGHT(T.kode_menu,5)
-			");
-			while($tr = mysql_fetch_assoc($t)){
-				$tr['DISC'] = $tr['DISC']*-1;
-			$nom = $nom + ($tr['total'] - $tr['DISC']);
-			$disc = $disc + $tr['DISC'];
-			
-			$t_nom = $t_nom + $tr['total'] - $tr['DISC'];
-			$t_disc = $t_disc + $tr['DISC'];
-			}			
-			?>
+		          <th >Name</th>
+		          <th >Disc Total</th>
+		      	</tr> <?php
+				$dsc = mysql_query("SELECT C.nama_disc, SUM(B.harga*B.qty) as DISC FROM tbltransorder_master A,tbltransorder_detail B, tblmasterdisc C WHERE A.no_bukti = B.no_bukti AND B.comment = C.kode_disc AND LEFT(B.kode_menu,3) = 'DSC' AND A.keterangan = 'CLOSE' AND B.time_order > '".$start." 00:00:00' AND B.time_order < '".$end." 24:00:00' GROUP BY C.kode_disc");
+				
+				while($dsc_t = mysql_fetch_assoc($dsc)){
+					$dsc_t['DISC'] = $dsc_t['DISC'] *-1; ?>
+			        <tr>
+			          <td >Disc <?php $dsc_t['nama_disc']; ?></td>
+			          <td >: <?php echo number_format($dsc_t['DISC']);?></td>
 
+			      	</tr>	<?php
+				$disc_g = $disc_g + $dsc_t['DISC'];		
+				}   
+			?>		        		        	
 		        <tr>
-		          <td ><?php echo $cat['nama_cat'];?></td>
-		          <td ><?php echo number_format($nom);?></td>
-		          <td ><?php echo number_format($disc);?></td>
-		                             
-		        </tr>
+		          <th >Total</th>
+		          <th >: <?php echo number_format($disc_g);?></th>
 
-
-			<?php
-		}
-		?>		
+		      	</tr>	
 			    </tbody>
-		</table>	
-</div>
-		
+			</table>	
+		</div>
+
 
 
 	</div>
@@ -506,6 +488,9 @@ LEFT JOIN
 						
 					} ?>
 				        <tr>
+				          <td >Voucher</td>
+				          <td >: <?php echo number_format($vch);?> </td>
+				      	</tr>				        <tr>
 				          <td >Debit</td>
 				          <td >: <?php echo number_format($debit);?> </td>
 				      	</tr>
@@ -539,37 +524,7 @@ LEFT JOIN
 			</table>	
 		</div>
 
-		<div class="col-lg-12 col-md-12" style="padding-bottom:5px">
-			<strong>Disc per item </strong> 
-		
-		
-			
-		      <table class="table table-striped">
-		        <tbody>
-		        <tr>
-		          <th >Name</th>
-		          <th >Disc Total</th>
-		      	</tr> <?php
-				$dsc = mysql_query("SELECT C.nama_disc, SUM(B.harga*B.qty) as DISC FROM tbltransorder_master A,tbltransorder_detail B, tblmasterdisc C WHERE A.no_bukti = B.no_bukti AND B.comment = C.kode_disc AND LEFT(B.kode_menu,3) = 'DSC' AND A.keterangan = 'CLOSE' AND B.time_order > '".$start." 00:00:00' AND B.time_order < '".$end." 24:00:00' GROUP BY C.kode_disc");
-				
-				while($dsc_t = mysql_fetch_assoc($dsc)){
-					$dsc_t['DISC'] = $dsc_t['DISC'] *-1; ?>
-			        <tr>
-			          <td >Disc <?php $dsc_t['nama_disc']; ?></td>
-			          <td >: <?php echo number_format($dsc_t['DISC']);?></td>
 
-			      	</tr>	<?php
-				$disc_g = $disc_g + $dsc_t['DISC'];		
-				}   
-			?>		        		        	
-		        <tr>
-		          <th >Total</th>
-		          <th >: <?php echo number_format($disc_g);?></th>
-
-		      	</tr>	
-			    </tbody>
-			</table>	
-		</div>
 
 	</div>
 

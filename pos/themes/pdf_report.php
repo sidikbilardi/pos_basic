@@ -816,7 +816,7 @@ if($_GET['pilih'] == 4){
 		$pdf->Cell(40,8,'',0,0,"C");
 		$pdf->ln(8);
 
-		$c = mysql_query("SELECT * FROM tblmastercategory where status = 1 ORDER BY nama_cat");
+/*		$c = mysql_query("SELECT * FROM tblmastercategory where status = 1 ORDER BY nama_cat");
 		while($cat = mysql_fetch_assoc($c)){
 			$nom = 0;
 			$disc = 0;
@@ -850,7 +850,7 @@ if($_GET['pilih'] == 4){
 		$pdf->Cell(40,8,'',0,0,"C");
 		$pdf->ln(8);
 		$pdf->ln(8);
-
+*/
 		$pdf->Cell(120,8,'DISCOUNT PER ITEM',1,0,"C");
 		$pdf->Cell(20,8,'',0,0,"C");
 		$pdf->Cell(40,8,'',0,0,"C");
