@@ -1,0 +1,157 @@
+/*
+	CSS originally created by Alvin Johanes Fransiscus Lee
+	+6285263488999 
+	lee.alvin.johanes@gmail.com
+*/
+ @-webkit-keyframes AnimationName 
+{
+	0%{background-position:0% 51%}
+	50%{background-position:100% 50%}
+	100%{background-position:0% 51%}
+}
+@-moz-keyframes AnimationName 
+{
+	0%{background-position:0% 51%}
+	50%{background-position:100% 50%}
+	100%{background-position:0% 51%}
+}
+@-o-keyframes AnimationName 
+{
+	0%{background-position:0% 51%}
+	50%{background-position:100% 50%}
+	100%{background-position:0% 51%}
+}
+@keyframes AnimationName 
+{
+	0%{background-position:0% 51%}
+	50%{background-position:100% 50%}
+	100%{background-position:0% 51%}
+}
+
+.htmllogin
+{
+	text-align: center;
+ background: linear-gradient(226deg, #00a65a, #009688, #004d40, #009688);
+/*	background: linear-gradient(226deg, #fbfcfc, #009688, #8195ec, #f854e3);
+	background:white;*/
+	background-size: 800% 800%;	
+	-webkit-animation: AnimationName 14s ease infinite;
+	-moz-animation: AnimationName 14s ease infinite;
+	-o-animation: AnimationName 14s ease infinite;
+	animation: AnimationName 14s ease infinite;
+	/*background-image: linear-gradient(90deg, rgb(39, 174, 96) 25%, rgb(52, 152, 219) 100%);background-image: -moz-linear-gradient(left, rgb(39, 174, 96) 25%, rgb(52, 152, 219) 100%);background-image: -webkit-linear-gradient(left, rgb(39, 174, 96) 25%, rgb(52, 152, 219) 100%);background-image: -o-linear-gradient(left, rgb(39, 174, 96) 25%, rgb(52, 152, 219) 100%);background-image: -ms-linear-gradient(left, rgb(39, 174, 96) 25%, rgb(52, 152, 219) 100%);
+	background-color: #00a65a;*/
+}
+
+.logologin
+{
+    height: 300px;
+   	width: 300px;
+	background-image: url("../img/willert.png");
+	/*background-image: url("../../logo/logoname.png");*/
+	background-size: cover;
+	background-color: transparent;
+    background-repeat: no-repeat;
+   	margin-top: 70px;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.plogin
+{
+	text-align: center;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.ilogin1
+{
+	height: 50px;
+	width: 260px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	border: 1px solid;
+	font-size: 20px;
+	text-align: center;
+}
+
+.ilogin2
+{
+	height: 50px;
+	width: 260px;
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
+	border: 1px solid;
+	font-size: 20px;
+	text-align: center;
+}
+
+.inputglogin
+{
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 50px;
+}
+
+.inputlogin
+{
+	height: 50px !important;
+	font-size: 20px !important;
+}
+
+.btnlogin
+{
+	width: 300px;
+}
+
+.credit
+{
+	color: white;
+}
+
+.credit a
+{
+	color: white;
+}
+
+.logonavmini
+{
+	max-width: 40px;
+}
+
+.alignright
+{
+	text-align: right;
+}
+
+.main-header 
+{
+    position: fixed;
+    width: 100%;
+}
+
+.control-sidebar 
+{
+    position: fixed;
+}
+
+.main-sidebar, .left-side 
+{
+	position: fixed;
+}
+
+.ajaxfull{
+	width:75vw;
+	height:75vh;
+}
+
+#time.dropdown-menu
+{
+    max-width: none;
+    z-index: 9999;
+}

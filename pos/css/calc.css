@@ -1,0 +1,11 @@
+.digits .well {
+text-align: center;
+cursor: pointer;
+font-weight: bold;
+font-size: 2em;
+}
+.result {
+text-align: right;
+font-weight: bold;
+font-size: 2em;
+}
